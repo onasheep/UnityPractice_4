@@ -20,6 +20,8 @@ public class PlayerInput : MonoBehaviour {
         if (GameManager.instance != null
             && GameManager.instance.isGameover)
         {
+          
+
             move = 0;
             rotate = 0;
             fire = false;

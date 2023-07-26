@@ -20,8 +20,7 @@ public class Gun : MonoBehaviour {
     private LineRenderer bulletLineRenderer; // 총알 궤적을 그리기 위한 렌더러
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
-    public AudioClip shotClip; // 발사 소리
-    public AudioClip reloadClip; // 재장전 소리
+    public GunData gunData;
 
     public float damage = 25; // 공격력
     private float fireDistance = 50f; // 사정거리
@@ -48,8 +47,9 @@ public class Gun : MonoBehaviour {
     }
 
     private void OnEnable() {
+        ammoRemain = gunData.startAmmoRemain;
         // 현재 탄창을 가득채우기
-        magAmmo = magCapacity;
+        magAmmo = gunData.magCapacity;
         // 총의 현재 상태를 총을 쏠 준비가 된 상태로 변경
         state = State.Ready;
         // 마지막으로 총을 쏜 시점을 초기화
@@ -79,7 +79,7 @@ public class Gun : MonoBehaviour {
 
         // 레이캐스트(시작지점, 방향, 충돌 정보 컨테이너, 사정거리)
         if (Physics.Raycast(fireTransform.position,
-            fireTransform.forward, out hit, fireDistance))
+            fireTransform.forward, out hit, fireDistance) == true)
         {
             // 레이가 어떤 물체와 충돌한 경우
 
@@ -125,7 +125,7 @@ public class Gun : MonoBehaviour {
         shellEjectEffect.Play();
 
         // 총격 소리 재생
-        gunAudioPlayer.PlayOneShot(shotClip);
+        gunAudioPlayer.PlayOneShot(gunData.shotClip);
 
         // 선의 시작점은 총구의 위치
         bulletLineRenderer.SetPosition(0, fireTransform.position);
@@ -161,7 +161,7 @@ public class Gun : MonoBehaviour {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
         // 재장전 소리 재생
-        gunAudioPlayer.PlayOneShot(reloadClip);
+        gunAudioPlayer.PlayOneShot(gunData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리를 쉬기
         yield return new WaitForSeconds(reloadTime);
