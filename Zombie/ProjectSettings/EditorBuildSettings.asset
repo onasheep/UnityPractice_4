@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01. Zombie/Scenes/MainScene.unity
+    guid: e10b17447e51fef4a9e03add0b2a827f
   m_configObjects: {}
